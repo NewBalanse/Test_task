@@ -1,0 +1,8 @@
+extends layout.pug
+
+block content
+    .registration-result
+        each userValue, fieldName in userData
+            .registration-result-field
+                .registration-result-field--label fieldName
+                .registration-result-field-value userValue
