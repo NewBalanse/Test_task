@@ -3,8 +3,10 @@ let {maxLength} = require('../../libs/utils');
 let {getSignUpTemplateConfig} = require('../../libs/templates.manager');
 
 module.exports = function (req, res, next) {
-    let signUpRequest = req.body;
+    let signUpRequest = req;
     let hasErrors = false;
+
+
     let errors = {
         username: null,
         email: null,
@@ -13,7 +15,7 @@ module.exports = function (req, res, next) {
     };
 
     if (typeof signUpRequest !== 'object') {
-        next(new Error('Sign up request is invalid'));
+         next(new Error('Sign up request is invalid '));
     } else {
         if (!signUpRequest.username || !maxLength(signUpRequest.username)) {
             errors.password = 'Username is incorrect';

@@ -1,7 +1,7 @@
 extends layout.pug
 
 block content
-    form.registration-form
+    form.registration-form(method='POST' action='./sign-up')
         each fieldConfig in templateConfig
             div.registration-form-field--container
                 input.registration-form-field(type= fieldConfig.type placeholder= fieldConfig.placeholder name= fieldConfig.name value= fieldConfig.value)

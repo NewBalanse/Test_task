@@ -1,0 +1,10 @@
+extends layout.pug
+
+block content
+    form.enter-user-form(method='POST' action='./sign-in')
+        each fieldConfig in templateConfig
+            div.enter-user-form--container
+                input.enter-user-form-field(type= fieldConfig.type placeholder= fieldConfig.placeholder)
+            if fieldConfig.error
+                div.enter-user-form-field--error= fieldConfig.error
+        button.enter-user-form-button(type=submit) Sign in

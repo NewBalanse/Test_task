@@ -1,8 +1,96 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.registration-form {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.enter-user-form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registration-form {
+    background: gray;
+    border: 1px black solid;
+    border-radius: 12px;
+}
+
+.enter-user-form {
+    background: gray;
+    border: 1px black solid;
+    border-radius: 12px;
+}
+
+.enter-user-form--container {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5em;
+    flex: 2;
+}
+
+.enter-user-form-field--error {
+    display: flex;
+    flex: 1;
+    color: red;
+    background: gray;
+}
+
+.registration-form-field--container {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5em;
+    flex: 2;
+}
+
+.registration-form-field--error {
+    display: flex;
+    flex: 1;
+    color: red;
+    background: gray;
+}
+
+.registration-form-field {
+    flex: 1;
+    padding: .5em;
+    min-width: 200px;
+    border-radius: 6px;
+}
+
+
+.enter-user-form-field {
+    flex: 1;
+    padding: .5em;
+    min-width: 200px;
+    border-radius: 6px;
+}
+
+.registration-form-button {
+    padding: .5em;
+
+    background: orangered;
+    color: white;
+    border: 1px black solid;
+}
+
+.registration-form-button {
+    margin-bottom: 1em;
+}
+
+
+.enter-user-form-button {
+    padding: .5em;
+    margin-bottom: 1em;
+    background: orangered;
+    color: white;
+    border: 1px black solid;
 }
