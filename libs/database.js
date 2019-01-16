@@ -32,7 +32,7 @@ module.exports.createConnection = function (dbParams, callback) {
     }
 };
 
-module.exports.closeConnection  = function () {
+module.exports.closeConnection = function () {
     if (mysqlConnection) {
         mysqlConnection.end();
     }

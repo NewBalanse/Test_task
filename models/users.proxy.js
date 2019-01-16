@@ -24,24 +24,23 @@ class UsersProxy {
      * }>}
      */
     createUserAccound(userObj) {
+
         return new Promise((resolve, reject) => {
             let passwordData = this._generateUserPassword(userObj.password);
-            db().query(`
-                INSERT INTO users (username, email, password)
-                VALUES (${userObj.username}, ${userObj.email}, ${password});
-            `, (err, rows, fields) => {
-                if (err) {
-                    return reject(err);
-                }
+            db().query(`INSERT INTO users (username, email, password) VALUES ('${userObj.username}', '${userObj.email}', '${passwordData.password}');`
+                , (err, result, fields) => {
+                    if (err) {
+                        reject(err);
+                    }
 
-                let userObj = {
-                    username: rows[0].username,
-                    email: rows[0].email
-                };
+                    let ReturnedUserObj = {
+                        username: userObj.username,
+                        email: userObj.email
+                    };
 
-                resolve(userObj);
-            });
-        })
+                    resolve(ReturnedUserObj);
+                });
+        });
     }
 
     /***
@@ -57,72 +56,73 @@ class UsersProxy {
      */
     loginUser(userObj) {
         return new Promise((resolve, reject) => {
-            let pass = userObj.password;
+            let pass = this._generateUserPassword(userObj.password);
+            let mail = userObj.email;
 
-            db.qeury(`
-            SELECT * from users 
-            WHERE email = '${userObj.email}'; 
-            `,
-                (err, result, fields) => {
+            db().query(`SELECT * FROM users WHERE email = '${mail}' && password = '${pass.password}';`
+                , (err, result, fields) => {
                     if (err) {
-                        return reject(err);
+                        reject(err);
                     }
-
 
                     let SqlPassword = result[0].password
 
-                    let _isValid = this._validateUserPassword(pass, SqlPassword);
-
-                    if (_isValid) {
+                    if (this._validateUserPassword(pass.password, SqlPassword)) {
                         let ReturnedUserObj = {
                             username: result[0].username,
                             email: result[0].email,
                         };
-
                         resolve(ReturnedUserObj);
                     }
                 });
-        })
-    }
-
-    getUserData() {
-
+        });
     }
 
     /**
      *
-     * @param {string} rawPassword
      * @returns {{
-     *  salt: string,
-     *  password: string
-     * }}
+         *  password: string
+         * }}
      * @private
      */
     _generateUserPassword(rawPassword) {
-        let salt = this._generateSalt();
-        let hmac = crypto.createHmac('sha512', salt)
-            .update(rawPassword);
+        let cipher = crypto.createCipher('aes-128-cbc', 'X2yhsg3j');
+        let crypted = cipher.update(rawPassword, 'utf8', 'hex');
+        crypted += cipher.final('hex');
+
         return {
-            salt,
-            password: hmac.digest('hex')
+            password: crypted
         };
     }
 
-    /**
+    /***
      *
-     * @param {number} length
-     * @returns {string}
+     * @param rawPassword : string
+     * @returns {{
+         * password: string
+         * }}
      * @private
      */
-    _generateSalt(length = 15) {
-        return crypto.randomBytes(Math.ceil(length / 2))
-            .toString('hex');
+    _DecryptUserPassord(rawPassword) {
+        let decipher = crypto.createDecipher('aes-128-cbc', 'X2yhsg3j');
+        let crypted = decipher.update(rawPassword, 'hex', 'utf8');
+        crypted += decipher.final('utf8');
+
+
+        return {
+            password: crypted
+        };
     }
 
+    /***
+     *
+     * @param password:string
+     * @param passwordHash:string
+     * @returns {boolean}
+     * @private
+     */
     _validateUserPassword(password, passwordHash) {
-        let tmpPassword;
-
-        if(password == tmpPassword){
+        if (passwordHash === password) {
             return true;
         }
 

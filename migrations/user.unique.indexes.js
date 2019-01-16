@@ -3,7 +3,7 @@ let dbName = process.env.NODE_DB_NAME;
 
 function run () {
     return new Promise ((resolve, reject) => {
-        console.log('Start creating unique indexes fortable \'users\'');
+        console.log('Start creating unique indexes for table \'users\'');
         createConnection({dbName}, () => {
             db().query(`
                 CREATE UNIQUE INDEX \`idx-username-email\`

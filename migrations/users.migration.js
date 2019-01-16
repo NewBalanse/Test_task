@@ -1,7 +1,7 @@
 let {createConnection, closeConnection, db} = require('../libs/database');
 let dbName = process.env.NODE_DB_NAME;
 
-function run () {
+function run() {
     return new Promise((resolve, reject) => {
         createConnection({dbName}, () => {
             db().query(`
@@ -9,10 +9,7 @@ function run () {
                     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                     username VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
-                    password VARCHAR(255) NOT NULL,
-                    age TINYINT NOT NULL DEFAULT 0,
-                    firstName VARCHAR(50) NOT NULL DEFAULT '',
-                    lastName VARCHAR(50) NOT NULL DEFAULT ''
+                    password VARCHAR(255) NOT NULL
                 );
             `, (err, result, columns) => {
                     if (err) {
